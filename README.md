@@ -576,6 +576,7 @@ By understanding the strengths and weaknesses of these frameworks, you can make 
 To help you make informed decisions about which machine learning framework to use for your projects, this reading provides a comparative chart. 
 
 By the end of this reading, you will be able to: 
+-     compare key features, strengths, weaknesses, and common use cases for several popular ML frameworks, including TensorFlow, PyTorch, Scikit-learn, Keras, Apache MXNet, and Caffe. 
 
 ## Comparison chart: Machine learning frameworks
 
