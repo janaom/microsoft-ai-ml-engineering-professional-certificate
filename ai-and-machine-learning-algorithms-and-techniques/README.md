@@ -785,3 +785,153 @@ In this activity, you successfully implemented a decision tree model to predict 
 Now that you’ve successfully completed the activity, you can apply decision trees to other classification problems and explore different datasets and scenarios.
 
 These skills are valuable for classification problems, and you can apply them to other datasets and scenarios to further explore decision trees and other machine learning models.
+
+# Evaluation metrics for supervised learning models
+
+## Introduction
+
+Evaluation metrics play a critical role in assessing the performance of supervised learning models. These metrics help us understand how well a model predicts outcomes and whether it can generalize to unseen data. Different tasks, such as classification and regression, require different evaluation metrics. 
+
+By the end of this reading, you’ll be able to:
+
+- Identify key evaluation metrics: understand and describe the most commonly used evaluation metrics for classification and regression models.
+
+- Apply metrics to model performance: evaluate the performance of ML models using appropriate metrics such as accuracy, precision, recall, mean squared error (MSE), and R-squared.
+
+- Choose the right metric for the task: select the most suitable evaluation metric based on the specific problem and dataset characteristics, ensuring accurate model assessment.
+
+## Evaluation metrics for classification models
+
+Classification models predict discrete outcomes, such as whether an email is spam or not spam or whether a customer will churn or remain. Below are some key evaluation metrics used to assess the performance of classification models:
+
+### Accuracy
+
+Accuracy measures the percentage of correct predictions out of all predictions made.
+
+<img width="1201" height="127" alt="image" src="https://github.com/user-attachments/assets/7e2b0f96-7392-4c3e-b316-950d15fae1fe" />
+
+#### Example
+
+If a model correctly predicts 90 out of 100 instances, its accuracy is 90 percent. However, accuracy may not always be the best metric for imbalanced datasets, in which one class is much more frequent than the other.
+
+### Precision
+
+Precision measures the percentage of true positive predictions out of all positive predictions that the model makes. It is important in cases in which false positives are costly, such as in medical diagnoses or spam detection.
+
+<img width="1110" height="116" alt="image" src="https://github.com/user-attachments/assets/f7ec926d-87c4-4d11-b715-3ec754eab99d" />
+
+#### Example
+In spam detection, precision is the proportion of emails predicted as spam that are actually spam. A high precision value indicates fewer false positives.
+
+### Recall (sensitivity or true positive rate)
+
+Recall measures the percentage of true positive predictions out of all actual positives. It is important when the cost of missing positive instances is high, such as in disease detection.
+
+​<img width="1105" height="110" alt="image" src="https://github.com/user-attachments/assets/064df1f0-2c58-4a0a-8780-2f2f75165087" />
+
+#### Example
+
+In a cancer detection model, recall is the proportion of actual cancer cases that the model correctly identifies.
+
+### F1 score
+
+The F1 score is the harmonic mean of precision and recall. It provides a balanced metric when both precision and recall are important, especially for imbalanced datasets.
+
+<img width="1098" height="107" alt="image" src="https://github.com/user-attachments/assets/58a97f5f-b515-415d-b2f7-b2a639465291" />
+
+### Example
+
+A model with high precision but low recall or vice versa will have a lower F1 score, indicating that it is not performing well on both metrics.
+
+### Confusion matrix
+
+A confusion matrix is a table used to summarize the performance of a classification model. It shows the number of true positives (TP), true negatives (TN), false positives (FP), and false negatives (FN).
+
+<img width="1202" height="284" alt="image" src="https://github.com/user-attachments/assets/d3622631-57ed-4f58-9d58-3c2c4f372248" />
+
+From this matrix, you can calculate accuracy, precision, recall, and other metrics. It provides a more comprehensive view of model performance than accuracy alone.
+
+### ROC curve and AUC
+
+The receiver operating characteristic (ROC) curve plots the true positive rate (recall) against the false positive rate (FPR) at different threshold levels. The area under the curve (AUC) measures the overall performance of the classifier.
+
+- AUC ranges from 0 to 1, where a value closer to 1 indicates a better-performing model.
+
+- ROC AUC is particularly useful when you want to evaluate how well a model can distinguish between classes across different thresholds.
+
+## Evaluation metrics for regression models
+
+Regression models predict continuous values, such as house prices or temperatures. The following metrics are commonly used to evaluate regression models:
+
+### Mean squared error
+
+MSE measures the average squared difference between the predicted and actual values. It is sensitive to large errors because the errors are squared, making it useful for situations in which larger errors are more significant.
+
+<img width="1073" height="117" alt="image" src="https://github.com/user-attachments/assets/94837477-75fc-40bc-b5a3-4477b4662619" />
+
+#### Example
+
+In a house price prediction model, if the predicted price is $200,000 and the actual price is $250,000, the mean squared error for that prediction is $2.5 x 109.
+
+### Root mean squared error
+
+Root mean squared error (RMSE) is the square root of the mean squared error, which brings the error metric back to the same units as the target variable. RMSE is more interpretable because it is in the same unit as the data being predicted.
+
+<img width="1089" height="150" alt="image" src="https://github.com/user-attachments/assets/bbc8b148-2fa1-4af1-85c1-b7dc35cede4f" />
+
+#### Example
+
+If the MSE of a model predicting house prices is $625,000,000, then the RMSE will be $25,000, making it easier to interpret.
+
+### Mean absolute error
+
+Mean absolute error (MAE) measures the average absolute difference between the predicted and actual values. Unlike MSE, it does not square the errors, so it is less sensitive to outliers.
+
+<img width="1041" height="130" alt="image" src="https://github.com/user-attachments/assets/313e5058-a152-469a-9559-e699da0214dc" />
+
+#### Example
+
+In a weather forecasting model, MAE tells you the average difference between the predicted and actual temperatures.
+
+### R-squared (coefficient of determination)
+
+R-squared explains the proportion of variance in the dependent variable that is predictable from the independent variable(s). It ranges from 0 to 1, where 1 indicates a perfect fit, and 0 means the model does not explain any of the variance.
+
+<img width="1103" height="130" alt="image" src="https://github.com/user-attachments/assets/ab410bab-124c-45cc-b593-066a56d79446" />
+
+#### Example
+
+An R-squared value of 0.9 means that 90 percent of the variance in house prices is explained by the model’s input features.
+
+### Adjusted R-squared
+
+Adjusted R-squared adjusts the R-squared value based on the number of features in the model. It penalizes the addition of irrelevant features, providing a more accurate measure of model performance, especially in cases of overfitting.
+
+<img width="1090" height="135" alt="image" src="https://github.com/user-attachments/assets/b0aaf65e-b610-47b6-8450-6f9c03064f3d" />
+
+Where:
+
+- n is the number of data points.
+
+- p is the number of predictors in the model.
+
+#### Example
+
+If adding more features to a model decreases the adjusted R-squared, it suggests that the additional features are not improving the model.
+
+### Choosing the right evaluation metric
+
+Choosing the right evaluation metric depends on the problem you're solving and the nature of the data. For instance:
+
+- For imbalanced classification problems, use precision, recall, F1 score, or ROC AUC instead of accuracy.
+
+- For regression models, if large errors are particularly undesirable, consider using RMSE or MSE. If you want a metric that is less sensitive to outliers, use MAE.
+
+- For complex models, look at R-squared and adjusted R-squared to assess how well the model explains the variance in the target variable.
+
+# Conclusion
+
+Evaluation metrics are essential for understanding and improving ML models. By using the right metrics, you can accurately assess model performance, make necessary adjustments, and ensure that your model is well suited for the task at hand. 
+
+Whether you're working with classification or regression problems, these metrics will provide you with the insight needed to create reliable and effective models.
+
