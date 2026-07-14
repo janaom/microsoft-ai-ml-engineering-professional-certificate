@@ -240,3 +240,178 @@ For more complex models, tools such as local interpretable model-agnostic explan
 Implementing supervised learning algorithms effectively requires attention to every stage of the process, from data preparation to model deployment. By following best practices—such as ensuring high-quality data, choosing the right algorithm, preventing overfitting, tuning hyperparameters, and monitoring models post-deployment—you can build robust supervised learning models that generalize well and deliver value in real-world applications.
 
 Supervised learning remains one of the most widely used techniques in AI/ML, and adhering to these best practices will help you optimize model performance, improve accuracy, and ensure that your models are reliable in production environments.
+
+# Practice activity: Integrating linear regression
+
+## Introduction
+
+In this activity, you will implement and integrate a linear regression model using Python and the popular machine learning library scikit-learn. Linear regression is one of the fundamental algorithms for predicting a continuous target variable based on input features.
+
+By the end of this activity, you will be able to:
+
+- Set up a linear regression model.
+
+- Train the model with data.
+
+- Evaluate the model's performance.
+
+### 1. Setting up your environment
+
+Before we begin, ensure that you have the necessary libraries installed. If you haven’t already installed them, use the following command to install the required packages:
+
+```python
+pip install numpy pandas scikit-learn matplotlib
+```
+
+## 2. Importing required libraries
+
+Start by importing the libraries you’ll need for this lab:
+
+```python
+# Import necessary libraries
+import numpy as np
+import pandas as pd
+from sklearn.model_selection import train_test_split
+from sklearn.linear_model import LinearRegression
+from sklearn.metrics import mean_squared_error, r2_score
+import matplotlib.pyplot as plt
+```
+
+- NumPy and pandas will help us handle numerical and tabular data.
+
+- Scikit-learn's LinearRegression will be used to build the model.
+
+- Matplotlib will allow us to visualize the results.
+
+## 3. Loading and preparing the data
+
+For this example, we’ll use a simple dataset where we aim to predict house prices based on the square footage of the house. You can use your own dataset or create a synthetic one for this lab.
+
+```python
+# Sample dataset (house prices based on square footage)
+data = {
+    'SquareFootage': [1500, 1800, 2400, 3000, 3500, 4000, 4500],
+    'Price': [200000, 250000, 300000, 350000, 400000, 500000, 600000]
+}
+
+# Convert to DataFrame
+df = pd.DataFrame(data)
+
+# Display the first few rows of the data
+print(df.head())
+```
+
+<img width="1222" height="583" alt="image" src="https://github.com/user-attachments/assets/6c41ae5e-75e4-484a-87cc-5ea9f7be5cd5" />
+
+## 4. Splitting the data into training and testing sets
+
+We will split the dataset into training and testing sets. This allows us to train the model on one part of the data and test it on the unseen data to evaluate its performance.
+
+```python
+# Features (X) and Target (y)
+X = df[['SquareFootage']]  # Feature(s)
+y = df['Price']            # Target variable
+
+# Split data into 80% training and 20% testing
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
+
+# Display the shape of the training and testing sets
+print(f"Training data: {X_train.shape}, {y_train.shape}")
+print(f"Testing data: {X_test.shape}, {y_test.shape}")
+```
+
+## 5. Training the linear regression model
+
+Now we’ll create a linear regression model and train it using the training data:
+
+```python
+# Initialize the Linear Regression model
+model = LinearRegression()
+
+# Train the model on the training data
+model.fit(X_train, y_train)
+
+# Display the learned coefficients
+print(f"Intercept: {model.intercept_}")
+print(f"Coefficient: {model.coef_[0]}")
+```
+
+The intercept and coefficient are the parameters that define the linear equation y=mx+b, where:
+
+- m is the coefficient (slope), and
+
+- b is the intercept (y-axis intercept).
+
+## 6. Making predictions
+
+With the model trained, we can now use it to make predictions on the test data.
+
+
+```python
+# Make predictions on the testing set
+y_pred = model.predict(X_test)
+
+# Display the predictions
+print("Predicted Prices:", y_pred)
+print("Actual Prices:", y_test.values)
+```
+
+## 7. Evaluating the model
+
+It’s important to evaluate the model to see how well it performed on the test data. We’ll use mean squared error (MSE) and R-squared (R²) as performance metrics:
+
+```python
+# Calculate Mean Squared Error
+mse = mean_squared_error(y_test, y_pred)
+
+# Calculate R-squared
+r2 = r2_score(y_test, y_pred)
+
+# Display the evaluation metrics
+print(f"Mean Squared Error: {mse}")
+print(f"R-squared: {r2}")
+```
+
+- MSE gives the average squared difference between the actual and predicted values (the lower, the better).
+
+- R² tells you how well the model fits the data (1 means a perfect fit, while 0 indicates no fit).
+
+## 8. Visualizing the results
+
+Finally, let’s visualize the linear regression line against the data points:
+
+```python
+# Plot the data points
+plt.scatter(X_test, y_test, color='blue', label='Actual Data')
+
+# Plot the regression line
+plt.plot(X_test, y_pred, color='red', label='Regression Line')
+
+# Add labels and title
+plt.xlabel('Square Footage')
+plt.ylabel('Price')
+plt.title('House Prices vs. Square Footage')
+plt.legend()
+
+# Show the plot
+plt.show()
+```
+
+The plot will display the actual data points and the fitted linear regression line, allowing you to see how well the model fits the data.
+
+## Conclusion
+
+In this lab, you learned how to:
+
+- Set up a linear regression model using Scikit-learn.
+
+- Train the model on a dataset.
+
+- Evaluate its performance using metrics such as MSE and R².
+
+- Visualize the results to see how the model fits the data.
+
+Linear regression is a simple yet powerful tool for predicting continuous values, and it’s widely used in various industries to model relationships between variables. By following these steps, you can now apply linear regression to your own datasets and projects.
+
+This completes the activity. Feel free to experiment with different datasets or tweak the model parameters to further explore the behavior of linear regression!
+
