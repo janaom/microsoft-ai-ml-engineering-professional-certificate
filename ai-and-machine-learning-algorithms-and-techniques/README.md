@@ -1097,3 +1097,196 @@ Key takeaways:
 - For regression models, R-squared, MSE, and MAE are commonly used metrics.
 
 - Using cross-validation with multiple metrics helps ensure that the model’s performance is well-rounded and not dependent on a single evaluation metric.
+
+# Feature selection methods: Backward elimination, forward selection, and LASSO
+
+## Introduction
+
+Feature selection is an essential part of building efficient machine learning models. By selecting the most relevant features, you can improve model performance, reduce overfitting, and enhance interpretability. 
+
+This reading will describe three common techniques for feature selection: backward elimination, forward selection, and least absolute shrinkage and selection operator (LASSO). These methods help identify which features are the most significant for a given model and discard irrelevant ones.
+
+By the end of this reading, you'll be able to:
+
+- Explain how backward elimination removes less significant features, improving model performance.
+
+- Apply forward selection to incrementally add significant features to a model.
+
+- Implement LASSO to automatically select important features through regularization.
+
+## Backward elimination
+
+Backward elimination is a feature selection technique that starts with all the available features and progressively removes the least significant features one by one. The goal is to eliminate features that do not contribute much to the predictive power of a given model.
+
+### Steps of backward elimination
+
+1. Fit the model—e.g., linear regression—with all the features in the dataset.
+
+2. Calculate p-values to determine how statistically significant each feature is.
+
+3. Remove the least significant feature—i.e., the feature with the highest p-value. 
+
+4. Repeat the process with the remaining features until all remaining features are statistically significant—i.e., below a predefined significance level, typically 0.05.
+
+### Advantages
+
+- Straightforward and intuitive.
+
+- Works well when there are many irrelevant features.
+
+### Disadvantages
+
+- Can be computationally expensive for large datasets.
+
+- May remove features that are important in combination with others but seem irrelevant when considered individually.
+
+### Example in Python
+
+```python
+import statsmodels.api as sm
+
+# Sample data: X is the feature matrix, y is the target variable
+X = sm.add_constant(X)  # Add a constant (intercept) to the model
+model = sm.OLS(y, X).fit()  # Fit an Ordinary Least Squares regression
+print(model.summary())  # Display the model summary
+
+# Backward elimination: remove the feature with the highest p-value and refit the model
+# Repeat the process until all remaining features have a p-value < 0.05
+```
+
+## Forward selection
+
+Forward selection is the opposite of backward elimination. Instead of starting with all features, forward selection begins with no features and adds them one by one based on their statistical significance and impact on model performance.
+
+### Steps of forward selection
+
+1. Start with an empty model: Begin with no features.
+
+2. Add the most significant feature: Add the feature that has the highest correlation with the target variable or provides the most improvement to the model.
+
+3. Refit the model: After each feature is added, refit the model and evaluate the performance, e.g., using adjusted R-squared or another metric.
+
+4. Repeat: Continue adding features until the addition of further features no longer improves the model’s performance.
+
+### Advantages
+
+- Useful when there are many features as it builds the model step by step
+
+- Computationally less expensive than backward elimination for very large datasets
+
+### Disadvantages
+
+- May include features that only appear significant due to their relationship with other features
+
+- Slower for datasets with a smaller number of features compared to backward elimination
+
+### Example in Python
+
+```python
+from sklearn.linear_model import LinearRegression
+from sklearn.model_selection import train_test_split
+from sklearn.metrics import r2_score
+
+# Define forward selection function
+def forward_selection(X, y):
+    remaining_features = set(X.columns)
+    selected_features = []
+    current_score = 0.0
+    best_score = 0.0
+    
+    while remaining_features:
+        scores_with_candidates = []
+        for feature in remaining_features:
+            features_to_test = selected_features + [feature]
+            X_train, X_test, y_train, y_test = train_test_split(X[features_to_test], y, test_size=0.2, random_state=42)
+            model = LinearRegression()
+            model.fit(X_train, y_train)
+            y_pred = model.predict(X_test)
+            score = r2_score(y_test, y_pred)
+            scores_with_candidates.append((score, feature))
+        
+        # Select the feature with the best score
+        scores_with_candidates.sort(reverse=True)
+        best_score, best_feature = scores_with_candidates[0]
+        
+        if current_score < best_score:
+            remaining_features.remove(best_feature)
+            selected_features.append(best_feature)
+            current_score = best_score
+        else:
+            break
+    
+    return selected_features
+
+# Apply forward selection
+best_features = forward_selection(X, y)
+print("Selected features:", best_features)
+```
+
+# LASSO
+
+LASSO is a type of regularization technique that both selects features and shrinks their coefficients. LASSO adds a penalty term—L1 regularization—to the cost function, which drives some feature coefficients to zero, effectively removing them from the model. This makes LASSO useful for automatic feature selection.
+
+## How LASSO works
+
+### L1 regularization
+
+The LASSO cost function is the ordinary least squares cost function with an added penalty term that is proportional to the absolute value of the feature coefficients. This penalty term shrinks some coefficients to zero.
+
+<img width="1191" height="114" alt="image" src="https://github.com/user-attachments/assets/24f74b48-c8aa-4e43-b48b-43e97a68e1fe" />
+
+Where:
+
+<img width="983" height="250" alt="image" src="https://github.com/user-attachments/assets/3c8ff91d-7a5b-4f0f-9c6f-de2b2a276e29" />
+
+
+### Feature selection
+
+As the regularization parameter λ increases, more feature coefficients are driven to zero. Only the most significant features are left in the model.
+
+### Advantages
+
+- Automatically selects features by shrinking irrelevant feature coefficients to zero
+
+- Helps prevent overfitting by penalizing large coefficients
+
+- Works well with high-dimensional datasets where there are many features
+
+### Disadvantages
+
+- May remove features that are important in combination but not individually.
+
+- The regularization parameter λ must be carefully tuned.
+
+### Example in Python
+
+```python
+from sklearn.linear_model import Lasso
+from sklearn.model_selection import train_test_split
+
+# Split the data
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
+
+# Initialize the Lasso model with alpha (λ) as the regularization parameter
+lasso_model = Lasso(alpha=0.01)
+lasso_model.fit(X_train, y_train)
+
+# Display the coefficients of the features
+print(f"Lasso Coefficients: {lasso_model.coef_}")
+```
+
+In this example, LASSO shrinks some feature coefficients to zero, effectively selecting only the most important features.
+
+# Conclusion
+
+Feature selection is a critical step in building robust, interpretable, and efficient machine learning models. By using techniques like backward elimination, forward selection, and LASSO, you can reduce the number of features in your model, improve performance, and prevent overfitting. Each method has its own strengths and weaknesses, so choosing the right approach depends on the dataset and the problem at hand.
+
+Key takeaways:
+
+- Backward elimination removes the least significant features step by step.
+
+- Forward selection adds the most significant features one by one.
+
+- LASSO uses regularization to automatically select features by shrinking irrelevant ones to zero.
+
+- Experimenting with these techniques will help you optimize your models for better performance and interpretability.
