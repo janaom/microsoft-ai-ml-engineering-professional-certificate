@@ -3354,3 +3354,77 @@ By completing this activity, you successfully:
     Visualized and interpreted the clustering and dimensionality reduction outcomes.
 
 Together, clustering and dimensionality reduction techniques are powerful tools for analyzing and visualizing high-dimensional data. They help reveal hidden patterns, simplify complex datasets, and provide insights into the underlying structure of the data. K-means clustering, combined with PCA or t-SNE, offers a comprehensive approach to understanding and interpreting data effectively.
+
+# Summary: Unsupervised learning
+
+## Introduction
+
+Have you ever opened your music app to find a perfectly curated playlist you didn’t create? It's as if the app read your mind, understanding your tastes—maybe even better than you do. How your music app suggests playlists based on your listening habits isn’t magic—it's unsupervised learning, identifying patterns in your preferences without needing explicit labels. In this reading, we’ll review some of the core concepts of unsupervised learning.
+
+By the end of this reading, you’ll be able to:
+
+    Summarize the key concepts of unsupervised learning, which include clustering, dimensionality reduction, and anomaly detection.
+
+As you’ve learned, unsupervised learning deals with unlabeled data—meaning, we don’t have predefined outcomes or categories. The primary goal is to uncover hidden patterns, relationships, or groupings in the data, which can lead to powerful insights. Unlike supervised learning, where the focus is on prediction, here it’s all about exploration and understanding.
+
+### Clustering 
+
+You’ve already seen how clustering algorithms like K-Means and DBSCAN work. Remember, K-Means partitions the data into a predefined number of clusters by minimizing the distance to the cluster center. It’s efficient, but best suited for spherical clusters and evenly distributed data. 
+
+On the other hand, DBSCAN shines when dealing with non-spherical clusters or datasets that have noise. It groups data points based on density and can identify outliers—perfect for datasets with more complex structures.
+
+### Dimensionality reduction
+
+You’ve worked with techniques like PCA and t-SNE. 
+
+With PCA, you were able to reduce the number of features while retaining most of the variance in the data. It’s a great tool for simplifying large datasets when the relationships are mostly linear. In genetics research, datasets often contain thousands of variables representing different genetic markers. PCA is used to reduce this complexity, retaining only the most significant genetic factors. This helps researchers identify patterns that may be associated with specific traits or diseases while working with a more manageable dataset.
+
+But when you need to visualize and explore non-linear structures, like clusters or patterns in high-dimensional data, t-SNE is your go-to. It’s designed to preserve local relationships, making it easier to spot hidden clusters. If you're working on image recognition, t-SNE can help you visualize high-dimensional image data by reducing it to a 2D or 3D space. For example, you could use t-SNE to explore how a neural network distinguishes between different categories of images, such as cats and dogs, by visualizing the clusters formed in the lower-dimensional space.
+
+### Anomaly detection
+
+Another area we touched on is anomaly detection. This technique helps us identify data points that deviate from the norm, often used in fraud detection or to identify rare events. Algorithms like Isolation Forest are great for this—isolating outliers quickly by randomly partitioning the data.
+
+Here's how it could work. In a large dataset of credit card transactions, most represent normal, legitimate behavior. However, fraud cases are rare and don't follow typical patterns. Using techniques like Isolation Forest or DBSCAN, the system can identify transactions that deviate from the norm—such as unusually large purchases, transactions made from uncommon locations, or rapid consecutive transactions across different vendors.
+
+For example, an Isolation Forest algorithm could work by partitioning the data and isolating these outliers. It doesn’t need labels to find these anomalies, making it ideal for spotting potential fraud without prior knowledge of what fraud looks like. This helps banks and financial institutions catch suspicious activities in real time, flagging them for further investigation.
+
+## Conclusion
+
+By now, you should have a solid understanding of when and how to use these unsupervised learning techniques. Whether it’s segmenting customers, reducing complex data for visualization, or finding anomalies in the data, unsupervised learning gives you the tools to dig deeper into your datasets. 
+
+Now it's your turn to dive into unsupervised learning. Take your own dataset and try out the techniques we've covered. The more you practice, the more you'll unlock the full potential of your data, leading to more informed and impactful outcomes. 
+
+# Industry exemplar: Application of unsupervised learning techniques
+
+## Introduction
+
+Ever wonder how companies turn massive, unstructured data into actionable insights? The answer lies in unsupervised learning. In this reading, we're diving into real-world examples of how techniques such as k-means clustering, DBSCAN, and principal component analysis (PCA) are transforming industries. From customer segmentation in retail to fraud detection in banking and complex genomics data simplification in biotechnology, these methods are the unsung heroes behind smarter decision-making. Curious to see how these techniques are driving success in the real world? Let's get started!
+
+By the end of this reading, you’ll be able to:
+
+    Discuss use cases for unsupervised learning techniques in various industries.
+
+## k-means clustering
+
+Let’s start with k-means clustering. A great example of its use is in customer segmentation. Imagine a large retail company with a customer base of thousands. Using k-means, they can segment customers into different groups based on spending patterns, income levels, and demographics. This allows the company to target different customer segments with tailored marketing strategies.
+
+For instance, high-income customers who make frequent purchases might receive exclusive offers, while younger customers with lower spending scores might be targeted with budget-friendly promotions. By grouping customers in this way, companies can create more personalized and effective marketing campaigns.
+
+## DBSCAN
+
+Next, let’s talk about DBSCAN in the context of fraud detection in financial services. A major challenge for banks is identifying fraudulent transactions hidden among millions of legitimate ones. DBSCAN is highly effective here because it can detect irregular patterns in transaction data that might indicate fraud.
+
+By clustering typical transaction patterns, DBSCAN identifies outliers—transactions that don’t fit the normal behavior. These outliers might be unusually large transactions, transactions from unfamiliar locations, or ones that happen at odd times of day. Once flagged, these anomalies can be reviewed by a fraud detection team to ensure the safety of customer accounts.
+
+## Principal component analysis
+
+Now, let’s look at PCA and how it’s used in the biotechnology industry, specifically in genomics. Genomics data is often extremely high-dimensional, with thousands of genes and proteins being analyzed simultaneously. To make sense of this data, researchers apply PCA to reduce the number of dimensions while retaining the most important information.
+
+By simplifying the data, PCA allows scientists to visualize gene expression patterns, identify groups of genes that behave similarly, and even detect underlying biological processes. This can lead to breakthroughs in understanding diseases like cancer or identifying potential drug targets.
+
+## Conclusion
+
+As you can see, unsupervised learning techniques such as k-means, DBSCAN, and PCA have diverse applications across industries. Whether it’s customer segmentation, fraud detection, or complex biological data simplification, these methods help organizations make sense of large, unstructured datasets. They uncover hidden patterns and provide actionable insights that can drive smarter decisions.
+
+As you continue learning and practicing these techniques, keep in mind that their real-world impact is huge. Start by choosing a dataset and experimenting with these methods to see the insights they can reveal. You’ll see why they’re a key part of data-driven decision-making in today’s businesses.
