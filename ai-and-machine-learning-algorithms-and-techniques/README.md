@@ -3758,3 +3758,399 @@ In reinforcement learning, Q-learning and policy gradients are two popular appro
 In this walkthrough, you implemented and compared Q-learning and policy gradient algorithms in a simple grid environment. Both approaches demonstrated their strengths: Q-learning’s faster convergence and policy gradients' flexibility. While Q-learning is easier to implement in smaller, discrete environments, policy gradients offer a more scalable solution for larger, continuous action spaces.
 
 By comparing both algorithms, you now have a deeper understanding of when to use each approach based on the complexity of the problem and the type of action space.
+
+# Evaluation metrics for reinforcement learning models
+
+## Introduction
+
+Evaluating reinforcement learning (RL) models is essential to understanding how well an agent is learning and performing in a given environment. Unlike traditional supervised learning, where performance is measured by loss functions or accuracy, RL evaluation involves understanding both short-term and long-term decision-making.
+
+By the end of this lesson, you will be able to: 
+
+    Describe the most commonly used evaluation metrics in RL, helping you assess the effectiveness and efficiency of an RL agent.
+
+## Cumulative reward 
+
+### Definition
+
+Cumulative reward is the total sum of rewards an agent collects during an episode (or across multiple episodes). This metric measures how well an agent performs based on the reward system defined in the environment.
+
+### Why it’s important
+
+Cumulative reward gives a direct measure of an agent’s overall performance, indicating whether it is improving over time or exploiting suboptimal actions.
+
+### Key consideration
+
+For environments where future rewards are more important, you can compute cumulative rewards using discounting with a factor γ (discount factor).
+
+### Example
+
+If an agent receives rewards of +1, –1, +2, and 10 over an episode, its cumulative reward for that episode is 12. Discounting may reduce future rewards by γ, affecting their weight in the final total.
+
+## Average reward per episode 
+
+### Definition
+
+Average reward per episode is the cumulative reward an agent receives divided by the number of episodes. This metric helps smooth out performance and identify overall trends over time.
+
+### Why it’s important
+
+It smooths out performance fluctuations and gives a better picture of the agent’s learning progress. Average rewards provide insight into whether the agent is becoming more consistent over time.
+
+### Key consideration
+
+Early fluctuations can skew average reward measurements, so it is important to assess average rewards over a long series of episodes to see trends.
+
+### Example
+
+If the agent’s cumulative rewards over 5 episodes are 10, 12, 8, 9, and 11, the average reward per episode is (10 + 12 + 8 + 9 + 11) / 5 = 10. 
+
+## Episode length 
+
+### Definition
+
+Episode length refers to the number of steps the agent takes to complete an episode (e.g., reaching a goal or failing). In some environments, shorter episode lengths may indicate that the agent is learning to reach the goal faster.
+
+### Why it’s important
+
+A decrease in episode length over time may suggest that the agent is learning to achieve the desired outcome more efficiently. It’s a useful metric in tasks where the goal is to minimize the time or steps necessary to achieve success.
+
+### Key consideration 
+
+Shorter episode lengths aren’t always better if they result from the agent terminating early due to failures.
+
+### Example
+
+If an agent solves a maze in 50 steps in episode 1, but later reduces the number of steps to 30 in episode 100, this indicates learning progress in minimizing the time to reach the goal.
+
+## Time to convergence 
+
+### Definition
+
+This metric measures the number of episodes or steps it takes for the agent to reach a stable policy (i.e., stop significantly improving its performance). An agent has reached convergence when its cumulative reward, actions, and performance stabilize.
+
+### Why it’s important
+
+Time to convergence indicates how quickly an RL agent learns an optimal (or near-optimal) policy. A lower time to convergence is desirable, particularly in environments where training time is costly or computationally expensive.
+
+### Key consideration
+
+Ensure that the environment is not too easy or too deterministic, as this could result in artificially fast convergence without true learning.
+
+### Example
+
+In a 10 x 10 grid environment, if the agent's cumulative reward plateaus after 500 episodes and remains stable, we say the agent has converged after 500 episodes.
+
+## Policy stability 
+
+### Definition
+
+Policy stability measures how often the agent changes its learned policy (i.e., the set of actions it takes in various states) after reaching convergence. It indicates how confident the agent is in its learned actions.
+
+### Why it’s important
+
+A highly stable policy means that the agent has learned a consistent set of actions that maximize rewards, whereas instability may indicate that the agent is still exploring or that the environment is dynamic.
+
+### Key consideration
+
+In non-stationary environments (where the environment changes over time), a highly stable policy may not be ideal, as the agent needs to adapt.
+
+### Example
+
+After convergence, if the agent frequently changes actions in the same state, this may indicate uncertainty or noise in the policy, suggesting the need for further training or policy refinement.
+
+## Exploration vs. exploitation ratio 
+
+### Definition
+
+This metric measures the balance between exploration (trying new actions to discover their outcomes) and exploitation (choosing known actions that yield high rewards). The calculation often depends on how frequently the agent explores compared to when it exploits.
+
+### Why it’s important 
+
+A well-balanced exploration vs. exploitation ratio ensures that the agent discovers optimal strategies without getting stuck in suboptimal actions.
+
+### Key consideration
+
+Too much exploration can slow down learning, while too much exploitation can prevent the agent from finding better solutions.
+
+### Example
+
+In a Q-learning algorithm, if the agent follows an ϵϵ-greedy strategy with ϵ = 0.1, it explores 10 percent of the time and exploits 90 percent of the time. A too-low ϵ might cause the agent to miss potentially better strategies.
+
+## Success rate 
+
+### Definition
+
+The success rate measures how often an agent completes a task or reaches a goal within a set number of episodes or steps. It’s a ratio of successful episodes to total episodes.
+
+### Why it’s important
+
+In many tasks, such as games or robotic control, the success rate is the most direct way to measure the agent’s ability to achieve the desired outcome.
+
+### Key consideration
+
+The use of success rate often occurs in combination with other metrics to provide a more comprehensive view of performance, especially in environments where completing the task quickly is as important as completing it at all.
+
+### Example
+
+If an agent completes the task in 80 out of 100 episodes, the success rate is 80 percent. 
+
+## Sample efficiency 
+
+### Definition
+
+Sample efficiency refers to how effectively an agent uses its experiences (state-action-reward tuples) to learn. High sample efficiency means that the agent learns well from relatively few episodes.
+
+### Why it’s important 
+
+Sample efficiency is crucial in environments where collecting data or simulating episodes is expensive or time-consuming (e.g., real-world robotics or complex simulations).
+
+### Key consideration 
+
+Algorithms that prioritize sample efficiency tend to converge faster but may require more sophisticated methods such as experience replay or off-policy learning.
+
+### Example
+
+An agent that reaches an optimal policy after 500 episodes is more sample-efficient than one that requires 10,000 episodes to achieve the same performance.
+
+## Computational complexity 
+
+### Definition
+
+Computational complexity measures the required time and resources to run an RL algorithm. This metric helps determine whether an algorithm is feasible for large-scale or real-time applications.
+
+### Why it’s important
+
+In real-world systems, limited computational power or time constraints can affect the choice of RL algorithms. Efficient algorithms are necessary for applications such as autonomous vehicles or robotic systems.
+
+### Key consideration
+
+Consider both the time complexity (how long the algorithm takes to converge) and space complexity (memory usage for storing value functions or policies).
+
+### Example
+
+A model-free algorithm such as Q-learning may require more time to converge than a model-based approach but uses fewer resources since it does not need to model the environment explicitly.
+
+## Conclusion
+
+Evaluating RL models requires a set of tailored metrics that go beyond traditional ML evaluations. Cumulative rewards, episode length, policy stability, and other metrics provide insight into how well an agent is learning, exploring, and exploiting its environment. By understanding and applying these metrics, you can better assess the performance and effectiveness of your RL models and make informed decisions about algorithm selection and training strategies.
+
+# Walkthrough: Applying model evaluation metrics
+
+## Introduction
+
+In this walkthrough, we will explore essential model evaluation metrics for reinforcement learning (RL), focusing on applying these metrics to your Q-learning agent. Evaluating the performance of RL agents is a critical step in understanding how well they are learning from their environment and optimizing their actions. By using a variety of metrics, you can gain insights into the agent’s learning progress and identify areas where further tuning or adjustments may be needed.
+
+Throughout this walkthrough, you’ll be guided through the practical implementation of several key evaluation metrics. These metrics will not only help you track your agent's performance but also provide a framework for improving future RL models in more complex environments. Understanding these metrics is crucial for interpreting the learning process and determining whether the agent is balancing exploration and exploitation effectively.
+
+ By the end of this walkthrough, you will be able to:
+
+    Interpret the results of each metric and how to use them to improve the performance of your RL models.
+
+## Step-by-step guide for model evaluation
+
+### Step 1: Review environment and agent setup
+
+The agent was trained in a 5 x 5 grid environment where it navigated from a random starting state to a goal state while avoiding pitfalls. The agent was trained using Q-learning, and the reward structure was as follows:
+
+    +10 for reaching the goal (state 24.
+
+    –10 for falling into the pitfall (state 12).
+
+    –1 for other actions to encourage efficient navigation.
+
+Key environment setup
+
+```py
+import numpy as np
+
+# Define the environment
+grid_size = 5
+n_states = grid_size * grid_size
+n_actions = 4  # Up, down, left, right
+
+# Initialize reward matrix (goal: +10, pitfalls: -10, others: -1)
+rewards = np.full((n_states,), -1)
+rewards[24] = 10  # Goal at state 24 (bottom-right)
+rewards[12] = -10  # Pitfall at state 12 (center)
+```
+
+Key Q-learning algorithm
+
+```py
+def epsilon_greedy_action(Q_table, state, epsilon):
+    # Epsilon-greedy strategy: with probability epsilon, take a random action (exploration)
+    # otherwise take the action with the highest Q-value for the given state (exploitation)
+    if np.random.rand() < epsilon:  # Exploration
+        return np.random.randint(0, Q_table.shape[1])  # Random action
+    else:  # Exploitation
+        return np.argmax(Q_table[state])  # Action with the highest Q-value
+
+
+alpha = 0.1  # Learning rate
+gamma = 0.9  # Discount factor
+epsilon = 0.1  # Exploration rate for epsilon-greedy policy
+
+# Initialize the Q-table
+Q_table = np.zeros((n_states, n_actions))
+
+# Training loop
+for episode in range(1000):
+    state = np.random.randint(0, n_states)  # Start at random state
+    done = False
+    while not done:
+        action = epsilon_greedy_action(Q_table, state, epsilon)
+        next_state = np.random.randint(0, n_states)  # Random next state
+        reward = rewards[next_state]
+
+        # Q-learning update rule
+        Q_table[state, action] = Q_table[state, action] + alpha * (reward + gamma * np.max(Q_table[next_state]) - Q_table[state, action])
+
+        state = next_state
+        if next_state == 24 or next_state == 12:  # End episode if goal or pitfall is reached
+            done = True
+```
+
+### Step 2: Measure cumulative reward
+
+The cumulative reward is a key metric that measures the total reward an agent collects over the course of an episode. It helps track how well the agent is learning to maximize positive rewards and avoid penalties.
+Solution
+
+To calculate cumulative rewards over the 1,000 episodes:
+
+```py
+import matplotlib.pyplot as plt
+
+# Calculate and store cumulative rewards
+cumulative_rewards = []
+for episode in range(1000):
+    total_reward = 0
+    state = np.random.randint(0, n_states)
+    done = False
+    while not done:
+        action = epsilon_greedy_action(Q_table, state, epsilon)
+        next_state = np.random.randint(0, n_states)
+        reward = rewards[next_state]
+        total_reward += reward
+        state = next_state
+        if next_state == 24 or next_state == 12:
+            done = True
+    cumulative_rewards.append(total_reward)
+```
+
+Interpretation
+
+After running the above code, you can plot the cumulative rewards:
+
+```py
+# Plot the cumulative rewards over episodes
+plt.plot(cumulative_rewards)
+plt.xlabel('Episodes')
+plt.ylabel('Cumulative Reward')
+plt.title('Cumulative Reward Over Episodes')
+plt.show()
+```
+
+If the agent is learning well, you should see an upward trend in cumulative rewards as the episodes progress, indicating that the agent is improving at reaching the goal and avoiding pitfalls.
+
+### Step 3: Measure episode length
+
+Episode length measures the number of steps the agent takes to complete an episode. Decreasing episode lengths over time typically indicate that the agent is learning to reach the goal more efficiently.
+Solution
+
+```py
+# Calculate and store episode lengths
+episode_lengths = []
+actions = []
+for episode in range(1000):
+    steps = 0
+    state = np.random.randint(0, n_states)
+    done = False
+    while not done:
+        action = epsilon_greedy_action(Q_table, state, epsilon)
+        
+        next_state = np.random.randint(0, n_states)
+        steps += 1
+        state = next_state
+        if next_state == 24 or next_state == 12:
+            done = True
+    episode_lengths.append(steps)
+```
+
+Visualization
+
+Plot the distribution of episode lengths to see how quickly the agent learns to reach the goal:
+
+```py
+# Plot a histogram of episode lengths
+plt.hist(episode_lengths, bins=20)
+plt.xlabel('Episode Length (Steps)')
+plt.ylabel('Frequency')
+plt.title('Distribution of Episode Lengths')
+plt.show()
+```
+
+Interpretation
+
+If the agent is learning to navigate efficiently, you will see more episodes with shorter lengths as the training progresses. This indicates that the agent is figuring out the optimal path to the goal.
+
+### Step 4: Measure success rate and exploration vs. exploitation ratio
+
+The success rate is a straightforward metric that measures how often the agent successfully reaches the goal. This metric helps assess how reliable the agent is at completing the task.
+
+Solution
+
+```py
+# Redefine epsilon_greedy_action to log explorations & exploitations
+actions = []
+def epsilon_greedy_action(Q_table, state, epsilon):
+    # Epsilon-greedy strategy: with probability epsilon, take a random action (exploration)
+    # otherwise take the action with the highest Q-value for the given state (exploitation)
+    if np.random.rand() < epsilon:  # Exploration
+        actions.append('explore')
+        return np.random.randint(0, Q_table.shape[1])  # Random action
+    else:  # Exploitation
+        actions.append('exploit')
+        return np.argmax(Q_table[state])  # Action with the highest Q-value
+
+# Calculate and store cumulative rewards and actions
+cumulative_rewards = []
+for episode in range(1000):
+    total_reward = 0
+    state = np.random.randint(0, n_states)
+    done = False
+    while not done:
+        action = epsilon_greedy_action(Q_table, state, epsilon)
+        next_state = np.random.randint(0, n_states)
+        reward = rewards[next_state]
+        total_reward += reward
+        state = next_state
+        if next_state == 24 or next_state == 12:
+            done = True
+    cumulative_rewards.append(total_reward)
+
+# Calculate success rate
+success_count = sum(1 for reward in cumulative_rewards if reward >= 10)
+success_rate = success_count / len(cumulative_rewards)
+
+# Exploration vs. exploitation ratio
+#print(actions)
+exploration_count = sum(1 for action in actions if action == 'explore')
+exploitation_count = sum(1 for action in actions if action == 'exploit')
+exploration_exploitation_ratio = exploration_count / (exploration_count + exploitation_count)
+```
+
+Interpretation
+
+```py
+print(f"Success Rate: {success_rate * 100}%")
+print(f"Exploration vs. Exploitation Ratio: {exploration_exploitation_ratio}")
+```
+
+A high success rate means that the agent is consistently reaching the goal. If the success rate is low, you may need to tune the agent's parameters or provide more training episodes.
+
+A good balance in the exploration vs. exploitation ratio is important for learning. If the agent is exploring too much, you may need to reduce ϵϵ to encourage more exploitation. Conversely, if the agent isn’t exploring enough, it could be stuck in a suboptimal path and missing better strategies.
+
+## Conclusion
+
+In this walkthrough, you applied several key evaluation metrics—cumulative reward, episode length, success rate, and the exploration vs. exploitation ratio—to assess the performance of your Q-learning agent. By visualizing these metrics, you can get a clear sense of how well your agent is learning and what aspects may need further tuning or improvement. Experimenting with these metrics will allow you to better understand and optimize your RL models in various environments.  
