@@ -5282,3 +5282,96 @@ By the end of this activity, you should produce the following:
 # Conclusion
 
 Through this comprehensive activity, you have not only applied theoretical knowledge to a practical scenario but also honed your skills in model design, implementation, and evaluation. By critically reflecting on your process, you will better understand how to leverage AI/ML solutions in real-world business contexts. This exercise prepares you for future challenges in AI/ML engineering, emphasizing the importance of continuous learning and adaptation in the field.
+
+# Ai Graded Course assignment: Producing a comprehensive AI/ML project technical report
+
+## From Business Problem to AI/ML Solution
+
+In this activity, you'll reason through how to design an AI/ML solution for a real-world style business scenario — from framing the problem, to choosing the right learning approach, to evaluating your solution. You won't need to build or run any code, datasets, or tools; just respond directly in the text box using the concepts you've learned about supervised, unsupervised, and reinforcement learning.
+
+## Scenario
+
+GreenCart Grocers, a mid-sized grocery chain with 40 stores and a growing online delivery service, wants to use AI/ML to address three challenges: (1) predicting which customers are likely to stop shopping with them (churn), (2) grouping customers into meaningful segments for targeted promotions, and (3) automatically adjusting stock replenishment across stores to reduce both empty shelves and food waste. They have historical purchase data, customer demographics, and store inventory logs available.
+
+
+1. Using the GreenCart Grocers scenario above, respond to the following:
+
+        1. Problem Framing: For each of the three challenges (churn prediction, customer segmentation, inventory replenishment), briefly state the business goal and one technical challenge you'd expect to face with the available data (e.g., data quality, class imbalance, scale).
+    
+        2. Technique Selection: For each of the three challenges, identify whether it's best suited to supervised, unsupervised, or reinforcement learning, and explain why — including at least one alternative technique you considered and why you ruled it out.
+    
+        3. Implementation Reasoning: Choose ONE of the three challenges and describe, at a conceptual level, how you would prepare the data (e.g., handling missing values, feature selection) and what type of model or algorithm you'd start with. You do not need to write code.
+    
+        4. Evaluation & Business Impact: For the same challenge you chose in Part 3, identify one evaluation metric appropriate to that type of learning problem, explain why it's the right metric to use, and describe how you'd know if the solution is actually delivering business value (not just a good metric score).
+
+# Solution
+
+# Part 1: Problem Framing
+
+## Churn Prediction
+
+Business goal: Identify customers likely to stop shopping at GreenCart before they leave, so retention offers can be made in time.
+
+Technical challenge: Class imbalance — churned customers are typically a small minority of the dataset, which means the model may learn to predict “not churned” for everyone and still appear accurate.
+
+## Customer Segmentation
+
+Business goal: Group customers into meaningful clusters to enable targeted promotions and personalized marketing.
+
+Technical challenge: Choosing the right number of segments and ensuring they are actionable — too many clusters become unmanageable, too few lose meaningful distinctions.
+
+## Inventory Replenishment
+
+Business goal: Automatically adjust stock levels across 40 stores to minimize both empty shelves and food waste simultaneously.
+
+Technical challenge: Scale and complexity — the system must balance competing objectives across many stores, product categories and time horizons simultaneously.
+
+# Part 2: Technique Selection
+
+## Churn Prediction → Supervised Learning
+
+We have historical data with known outcomes (customer churned or not), making this a binary classification problem. A gradient boosting model like XGBoost would work well here.
+
+Alternative considered: Unsupervised clustering to identify “at risk” behavior patterns — ruled out because without labeled churn outcomes we cannot directly optimize for the business goal.
+
+## Customer Segmentation → Unsupervised Learning
+
+There are no predefined customer categories — we want the data to reveal natural groupings. K-means or hierarchical clustering would be appropriate.
+
+Alternative considered: Supervised classification — ruled out because we have no labeled segments to train on. The whole point is to discover segments that don’t yet exist.
+
+## Inventory Replenishment → Reinforcement Learning
+
+This is a sequential decision-making problem where the system must learn optimal replenishment actions over time based on feedback (waste, stockouts, costs). RL is ideal when decisions have delayed consequences and the environment changes continuously.
+
+Alternative considered: Supervised learning using historical replenishment decisions as training data — ruled out because historical decisions may not have been optimal, so training on them would simply replicate past mistakes.
+
+# Part 3: Implementation Reasoning — Churn Prediction
+
+## Data Preparation:
+
+    Handle missing values by imputing where reasonable (e.g. median purchase frequency) and flagging missingness as a feature where patterns may be informative
+    Feature engineering — create behavioral features such as days since last purchase, purchase frequency trend over last 90 days, average basket size change, category diversity
+    Define the churn label clearly — for example, no purchase in 90 days — and apply consistently across the dataset
+    Address class imbalance using SMOTE oversampling or class weight adjustment in the model
+    Split data chronologically rather than randomly to avoid data leakage — train on older data, test on more recent
+
+## Starting Model:
+
+Begin with Logistic Regression as a simple interpretable baseline, then move to XGBoost which handles mixed feature types, missing values and class imbalance well. Start simple, measure, then add complexity only if needed.
+
+# Part 4: Evaluation and Business Impact — Churn Prediction
+
+## Metric: Recall (Sensitivity)
+
+Recall measures how many actual churners the model correctly identifies. For churn prediction, missing a customer who is about to leave (false negative) is more costly than occasionally flagging a loyal customer (false positive) — a retention offer to a loyal customer costs little, but losing a churner costs revenue. Therefore optimizing for recall makes business sense, ideally balanced with precision using F1 score.
+
+## Knowing if it delivers real business value:
+
+A good metric score alone is not enough. Real business value would be demonstrated by:
+
+    Running an A/B test — apply retention offers to model-identified at-risk customers (treatment group) vs no intervention (control group) and measure actual churn rate difference
+    Measuring revenue retained from customers who received interventions and did not churn
+    Tracking ROI — cost of retention offers vs revenue saved from prevented churn
+
+If the model scores well but churn rates don’t actually decrease in practice, the solution is not delivering value regardless of the metric.
